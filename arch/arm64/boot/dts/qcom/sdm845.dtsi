@@ -1059,8 +1059,10 @@
 			i2c5: i2c@894000 {
 				compatible = "qcom,geni-i2c";
 				reg = <0 0x00894000 0 0x4000>;
-				clock-names = "se";
-				clocks = <&gcc GCC_QUPV3_WRAP0_S5_CLK>;
+				clock-names = "se", "m-ahb", "s-ahb";
+                               clocks = <&gcc GCC_QUPV3_WRAP0_S5_CLK>,
+                                        <&gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
+                                        <&gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&qup_i2c5_default>;
 				interrupts = <GIC_SPI 606 IRQ_TYPE_LEVEL_HIGH>;
@@ -1174,6 +1176,7 @@
 			clock-names = "m-ahb", "s-ahb";
 			clocks = <&gcc GCC_QUPV3_WRAP_1_M_AHB_CLK>,
 				 <&gcc GCC_QUPV3_WRAP_1_S_AHB_CLK>;
+			iommus = <&apps_smmu 0x6c3 0x0>;
 			#address-cells = <2>;
 			#size-cells = <2>;
 			ranges;

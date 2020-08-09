@@ -537,9 +537,34 @@
 	status = "okay";
 };
 
+&gpi_dma0 {
+	status = "okay";
+};
+
+&gpi_dma1 {
+	status = "okay";
+};
+
+&qup_i2c5_default{
+        pinconf {
+                pins = "gpio85", "gpio86";
+                drive-strength = <2>;
+                bias-pull-up;
+        };
+};
+
 &i2c5 {
 	status="okay";
-	clock-frequency = <400000>;
+	firmware-name = "qcom/sdm845/tas2559_uCDSP.bin";
+//	clock-frequency = <400000>;
+
+//	compatible = "i2c-gpio";
+//	i2c-gpio,delay-us = <5>;	/* 5~=100 kHz */ /* could probably run on higher speeds */
+
+	dmas = <&gpi_dma0 0 5 3 64 0>,
+               <&gpi_dma0 1 5 3 64 0>;
+        dma-names = "tx", "rx";
+	pinctrl-names = "default";
 
        /*smart PA*/
        tas2559@4c{
@@ -782,6 +807,7 @@
 		output-high;
 	};
 
+/*
 	ts_int_active: ts_int_active {
 		mux {
 			pins = "gpio31";
@@ -836,6 +862,7 @@
 			input-enable;
 		};
 	};
+*/
 };
 
 &uart3 {
@@ -1073,9 +1100,13 @@
 };
 
 &i2c14 {
-	compatible = "i2c-gpio";
+//	compatible = "i2c-gpio";
 
         status="okay";
+
+	dmas =  <&gpi_dma1 0 6 3 64 0>,
+		<&gpi_dma1 1 6 3 64 0>;
+	dma-names = "tx", "rx";
 
 	sda-gpios = <&tlmm 33 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
 	scl-gpios = <&tlmm 34 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
@@ -1101,9 +1132,10 @@
                 novatek,irq-gpio = <&tlmm 31 0x2001>;
 //		enable-active-high;
 
-                pinctrl-names = "pmx_ts_active", "pmx_ts_suspend";
-                pinctrl-0 = <&ts_int_active &ts_reset_active>;
-                pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
+		pinctrl-names = "default";
+                //pinctrl-names = "pmx_ts_active", "pmx_ts_suspend";
+                //pinctrl-0 = <&ts_int_active &ts_reset_active>;
+                //pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
                 novatek,config-array-size = <2>;
                 novatek,dump-click-count;
                 novatek,cfg_0 {
