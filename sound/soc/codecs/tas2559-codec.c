@@ -144,7 +144,7 @@ static void tas2559_shutdown(struct snd_pcm_substream *substream,
 	mutex_unlock(&pTAS2559->codec_lock);
 }
 
-static int tas2559_mute(struct snd_soc_dai *dai, int mute)
+static int tas2559_mute(struct snd_soc_dai *dai, int mute, int direction)
 {
 	struct snd_soc_component *codec = dai->component;
 	struct tas2559_priv *pTAS2559 = snd_soc_component_get_drvdata(codec);
@@ -1005,7 +1005,7 @@ static const struct snd_soc_component_driver soc_codec_driver_tas2559 = {
 static struct snd_soc_dai_ops tas2559_dai_ops = {
 	.startup = tas2559_startup,
 	.shutdown = tas2559_shutdown,
-	.digital_mute = tas2559_mute,
+	.mute_stream = tas2559_mute,
 	.hw_params = tas2559_hw_params,
 	.prepare = tas2559_prepare,
 	.set_sysclk = tas2559_set_dai_sysclk,
