@@ -333,7 +333,7 @@ static int tianma_panel_get_modes(struct drm_panel *panel,
 	mode = drm_mode_duplicate(connector->dev, m);
 	if (!mode) {
 		DRM_DEV_ERROR(panel->dev, "failed to add mode %ux%u@%u\n",
-				m->hdisplay, m->vdisplay, m->vrefresh);
+				m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
 		return -ENOMEM;
 	}
 
@@ -677,7 +677,6 @@ static const struct drm_display_mode tianma_panel_default_mode = {
 	.vsync_start	= 2246 + 15,
 	.vsync_end	= 2246 + 15 + 2,
 	.vtotal		= 2246 + 15 + 2 + 8,
-	.vrefresh	= 60,
 
 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
 };
